@@ -1,5 +1,7 @@
 package com.lt.jumper.factory;
 
+import lombok.extern.slf4j.Slf4j;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +9,7 @@ import java.util.Map;
  * 获取单例对象的工厂类
  * Created by 罗天 on 2020/10/27
  */
+@Slf4j
 public class SingletonFactory {
     private static final Map<String, Object> OBJECT_MAP = new HashMap<>();
 
@@ -21,16 +24,16 @@ public class SingletonFactory {
                 instance = OBJECT_MAP.get(key);
                 if(instance == null){
                     try {
-                        instance = t.newInstance();
-                    } catch (InstantiationException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        instance = t.getDeclaredConstructor().newInstance();
+                        OBJECT_MAP.put(key, instance);
+                    } catch (IllegalAccessException | InstantiationException e) {
+                        throw new RuntimeException(e.getMessage(), e);
+                    } catch (NoSuchMethodException | InvocationTargetException e) {
+                        log.error(e.getMessage(), e);
                     }
                 }
             }
         }
         return t.cast(instance);
     }
-
 }
