@@ -1,6 +1,5 @@
 package com.lt.jumper.core.spring.register;
 
-import cn.hutool.core.collection.CollUtil;
 import com.lt.jumper.core.annotation.RpcScan;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
